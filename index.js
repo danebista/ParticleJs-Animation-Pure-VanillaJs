@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 let mouse={
     x:null,
     y:null,
-    radius: (canvas.height / 100) * (canvas.width / 100) 
+    radius: (canvas.height / 80) * (canvas.width / 80) 
 }
 
 
@@ -41,7 +41,7 @@ class Particle{
             this.directionX *= -1;
         }
 
-        if (this.y > canvas.height || this.y < 10){
+        if (this.y > canvas.height || this.y < 0){
             this.directionY *= -1;
         }
 
@@ -49,26 +49,35 @@ class Particle{
         let dy = mouse.y - this.y;
 
         let distance =Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < mouse.radius + this.size){
+       
+        if ((distance < mouse.radius + this.size) ){
+            let forceX = dx/distance;
+            let forceY = dy/distance;
             
-            if (mouse.x < this.x && this.x < canvas.width - this.size * 10){
-                this.x += 10;
+            this.x -= forceX *4;
+            this.y -= forceY*4;
+
+            if (this.x<0){
+                this.x =0 + this.size*2
+                this.directionX = Math.abs(this.directionX) *1
             }
 
-            if (mouse.x > this.x && this.x > this.size * 10){
-                this.x -= 10;
+            if (this.x>canvas.width){
+                this.x = canvas.width-this.size
+                this.directionX = Math.abs(this.directionX) * -1;
             }
 
-            if (mouse.y < this.y && this.y < canvas.height - this.size * 10){
-                this.y += 10;
+            if(this.y> canvas.height){
+                this.y= canvas.height-this.size
+                this.directionY = Math.abs(this.directionY) * -1;
             }
 
-            if (mouse.y > this.y && this.y > this.size * 10){
-                this.y -= 10;
+            if (this.y < 0){
+                this.y = 0+ this.size *2
+                this.directionY= Math.abs(this.directionY) * 1;
             }
         }
-
+        
         this.x += this.directionX;
         this.y += this.directionY;
 
@@ -76,9 +85,9 @@ class Particle{
     }
 }
 
-function init(){
+function init(size){
     particleArray= [];
-    let numberOfParticles = (canvas.height * canvas.width) / 9500;
+    let numberOfParticles = (canvas.height * canvas.width) / size;
 
     for (let i=0; i < numberOfParticles; i++){
         let size = (Math.random() * 1) + 1;
@@ -125,10 +134,25 @@ function connect(){
 window.addEventListener('resize', ()=>{
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-    mouse.radius = (canvas.height / 100) * (canvas.width / 100);
-    init()
+    mouse.radius = (canvas.height / 80) * (canvas.width / 80);
+    let isMob= window.matchMedia("only screen and (max-width: 760px)").matches;
+    console.log(isMob)
+    if (isMob){
+        init(2500);
+    }
+    else{
+        init(9500);
+    }
 })
-init();
+const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+if (isMobile) {
+    init(4000);
+}
+else{
+    init(9500);
+}
+
 animate();
 
 window.addEventListener('mouseout', ()=>{
