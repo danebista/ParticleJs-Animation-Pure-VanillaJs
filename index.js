@@ -119,8 +119,8 @@ function connect(){
 
             let distance = defery * defery + deferx * deferx;
 
-            if (distance < (canvas.width / 10) * (canvas.height / 10)){
-                opacity=  1- distance/22000
+            if (distance < (canvas.width / 8) * (canvas.height / 8)){
+                opacity=  1- distance/18000
                 ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
                 ctx.beginPath();
                 ctx.moveTo(particleArray[a].x, particleArray[a].y);
