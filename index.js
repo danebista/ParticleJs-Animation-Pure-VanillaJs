@@ -120,7 +120,7 @@ function connect(){
             let distance = defery * defery + deferx * deferx;
 
             if (distance < (canvas.width / 10) * (canvas.height / 10)){
-                opacity=  1- distance/20000
+                opacity=  1- distance/22000
                 ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
                 ctx.beginPath();
                 ctx.moveTo(particleArray[a].x, particleArray[a].y);
@@ -134,14 +134,14 @@ function connect(){
 window.addEventListener('resize', ()=>{
     canvas.width = innerWidth;
     canvas.height = innerHeight;
-    mouse.radius = (canvas.height / 80) * (canvas.width / 80);
+    mouse.radius = (canvas.height / 120) * (canvas.width / 120);
     let isMob= window.matchMedia("only screen and (max-width: 760px)").matches;
     console.log(isMob)
     if (isMob){
         init(2500);
     }
     else{
-        init(9500);
+        init(10000);
     }
 })
 const isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
